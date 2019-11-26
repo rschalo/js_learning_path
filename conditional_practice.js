@@ -1,4 +1,3 @@
-perfect_squares = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 var age = prompt("Hey! Are you old enough to be in this bar? (hint: enter at least 95 for a surprise!)");
 
 if (age < 18 && age > 0){
@@ -9,7 +8,7 @@ if (age < 18 && age > 0){
     alert("Happy 21st birthday! Your first drink is on the house.");
 } else if (age % 2 === 1){
     alert("Having an odd year? Your age is!");
-} else if (perfect_squares.includes(age)){
+} else if (age % Math.sqrt(age) === 0){
     alert("WOW! Your age is a perfect square!");
 } else if (age < 0){
     alert("Error, please enter a real age");
