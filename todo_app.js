@@ -5,12 +5,12 @@ let delete_item = "";
 const greet = function(){
     while (response != "Exit"){
         response = prompt("Thank you for using ToDo List! What would you like to do?");
-        if(response === "New"){
+        if(response.toLowerCase() === "new"){
             new_item = prompt("What item would you like to add?");
             to_do_list.push(new_item);
-        } else if (response === "List"){
+        } else if (response.toLowerCase() === "list"){
             console.log(to_do_list);
-        } else if (response === "Delete"){
+        } else if (response.toLowerCase() === "delete"){
             delete_item = prompt("What item would you like to delete?");
             deletion = to_do_list.indexOf(delete_item);
             delete to_do_list[deletion];
