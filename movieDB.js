@@ -14,9 +14,13 @@ var myMovies = [
      hasWatched: false}
 ]
 
-for(const movie of myMovies){
+const movieResult = function(movie){
     let watched = (movie.hasWatched ? "seen":"not seen");
     let myRating = movie.rating;
     let name = movie.name;
-    console.log("I have " + watched + " " + name + " and I give it " + myRating + " stars.");
+    console.log("I have " + watched + " \"" + name + "\" and I give it " + myRating + " stars.")
+}
+
+for(const movie of myMovies){
+    movieResult(movie);
 };
