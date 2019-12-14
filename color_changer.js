@@ -1,3 +1,4 @@
+/*
 window.onload = function(){
     var body = document.querySelector("body")
     var colorMe = function(){
@@ -5,3 +6,12 @@ window.onload = function(){
     };
     document.querySelector("button").addEventListener("click", colorMe);
 };
+*/
+
+// toggle by adding class
+window.onload = function(){
+    var button = document.querySelector("button");
+    button.addEventListener("click", function(){
+        document.body.classList.toggle("purple");
+    })
+}
