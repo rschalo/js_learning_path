@@ -1,0 +1,32 @@
+.container-fluid {
+    background: rgba(66, 125, 180, .95)
+}
+
+.highlight-choice {
+    background: black;
+    color: white;
+}
+
+.boxy {
+    height: 3rem;
+}
+
+.box-color {
+    background: greenyellow;
+    border: 2px solid red;
+    height: 300px;
+}
+
+.box-color-highlight {
+    background: teal;
+    border: purple;
+}
+
+.currently-selected {
+    background: black;
+    color: white;
+}
+
+.disabled-row {
+    display: none;
+}
