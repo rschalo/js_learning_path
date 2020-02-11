@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="app.css" />
+
+<h1>The Posts Page</h1>
+
+<% posts.forEach(function(post){ %>
+<li><%= post.title %> - <strong><%= post.author %></strong></li>
+<% }) %>
+
+<form action="/addpost" method="POST">
+  <input type="text" name="newtitle" placeholder="Title" />
+  <input type="text" name="newauthor" placeholder="Author" />
+  <button>Submit Post</button>
+</form>

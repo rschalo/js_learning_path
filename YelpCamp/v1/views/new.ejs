@@ -1,0 +1,15 @@
+<%- include("partials/header") %>
+
+<h1>Create a New Campground</h1>
+
+<form class="mb-1 container-fluid" action="/campgrounds" method="POST">
+    <input type="text" name="name" placeholder="name" required>
+    <input type="text" name="image" placeholder="image url" required>
+    <button>Submit!</button>
+</form>
+<div class="container-fluid">
+<a class="btn btn-info" href="/">Return to Home</a>
+<a class="btn btn-info" href="/campgrounds">Go Back to Campgrounds</a>
+</div>
+
+<%- include("partials/footer") %>
