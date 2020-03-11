@@ -44,15 +44,34 @@ app.get("/", function(req, res) {
   res.render("landing");
 });
 
-app.get(`/campgrounds`, function(req, res) {
-  Campground.find({})
-    .then(function(allCampgrounds) {
-      res.render(`campgrounds/index`, { campgrounds: allCampgrounds });
-    })
-    .catch(function(err) {
-      console.error(err);
+app
+  .route(`/campgrounds`)
+  .get((req, res) => {
+    return Campground.find({})
+      .then(allCampgrounds => {
+        res.render(`campgrounds/index`, { campgrounds: allCampgrounds });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  })
+  .post((req, res, next) => {
+    var name = req.body.name;
+    var image = req.body.image;
+    var description = req.body.description;
+    var newCampground = { name: name, image: image, description: description };
+    Campground.create(newCampground, (err, newlyCreated) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(`Newly created campground: ${newCampground}`);
+        next();
+      }
     });
-});
+    //redirect back to campgrounds page
+    res.redirect("/campgrounds");
+    console.log("Added " + newCampground["name"]);
+  });
 
 /* original show route for all campgrounds
 app.get("/campgrounds", function(req, res) {
@@ -72,6 +91,7 @@ app.get("/campgrounds/new", function(req, res) {
   res.render("campgrounds/new");
 });
 
+/* original post route that I've added to the app.route for `/campgrounds`
 app.post("/campgrounds", function(req, res) {
   // get data from form and add to campgrounds array
   var name = req.body.name;
@@ -89,6 +109,7 @@ app.post("/campgrounds", function(req, res) {
   res.redirect("/campgrounds");
   console.log("Added " + newCampground["name"]);
 });
+*/
 
 // SHOW
 app.get("/campgrounds/:id", function(req, res) {
