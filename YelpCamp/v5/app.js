@@ -9,6 +9,11 @@ var express = require("express"),
   User = require(`./models/user`),
   seedDB = require("./seeds");
 
+//requiring routes
+var commentRoutes = require(`./routes/comments`),
+  campgroundRoutes = require(`./routes/campgrounds`),
+  indexRoutes = require(`./routes/index`);
+
 seedDB();
 mongoose.connect("mongodb://localhost/yelp_camp_v3", {
   useNewUrlParser: true,
@@ -36,168 +41,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(`/`, indexRoutes);
+app.use(`/campgrounds/:id/comments`, commentRoutes);
+app.use(`/campgrounds`, campgroundRoutes);
+
 app.listen(3000, function(req, res) {
   console.log("YelpCamp server is live");
-});
-
-app.get("/", function(req, res) {
-  res.render("landing");
-});
-
-app
-  .route(`/campgrounds`)
-  .get((req, res) => {
-    return Campground.find({})
-      .then(allCampgrounds => {
-        res.render(`campgrounds/index`, { campgrounds: allCampgrounds });
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  })
-  .post((req, res, next) => {
-    var name = req.body.name;
-    var image = req.body.image;
-    var description = req.body.description;
-    var newCampground = { name: name, image: image, description: description };
-    Campground.create(newCampground, (err, newlyCreated) => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(`Newly created campground: ${newCampground}`);
-        next();
-      }
-    });
-    //redirect back to campgrounds page
-    res.redirect("/campgrounds");
-    console.log("Added " + newCampground["name"]);
-  });
-
-/* original show route for all campgrounds
-app.get("/campgrounds", function(req, res) {
-  Campground.find({}, function(err, allCampgrounds) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("campgrounds/index", { campgrounds: allCampgrounds });
-    }
-  });
-
-  //res.render("campgrounds", {campgrounds:campgrounds});
-});
-*/
-
-app.get("/campgrounds/new", function(req, res) {
-  res.render("campgrounds/new");
-});
-
-/* original post route that I've added to the app.route for `/campgrounds`
-app.post("/campgrounds", function(req, res) {
-  // get data from form and add to campgrounds array
-  var name = req.body.name;
-  var image = req.body.image;
-  var description = req.body.description;
-  var newCampground = { name: name, image: image, description: description };
-  Campground.create(newCampground, function(err, newlyCreated) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(`Newly created campground: ${newCampground}`);
-    }
-  });
-  //redirect back to campgrounds page
-  res.redirect("/campgrounds");
-  console.log("Added " + newCampground["name"]);
-});
-*/
-
-// SHOW
-app.get("/campgrounds/:id", function(req, res) {
-  Campground.findById(req.params.id)
-    .populate("comments")
-    .exec(function(err, foundCampground) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(foundCampground);
-        res.render("campgrounds/show", { campground: foundCampground });
-      }
-    });
-});
-
-//comments routes
-//new route
-app.get(`/campgrounds/:id/comments/new`, isLoggedIn, function(req, res) {
-  Campground.findById(req.params.id, function(err, campground) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.render(`comments/new`, { campground: campground });
-    }
-  });
-});
-
-//comments post route
-app.post(`/campgrounds/:id/comments`, isLoggedIn, function(req, res) {
-  Campground.findById(req.params.id, function(err, campground) {
-    if (err) {
-      console.log(err);
-      res.redirect(`/campgrounds`);
-    } else {
-      Comment.create(req.body.comment, function(err, comment) {
-        if (err) {
-          console.log(err);
-        } else {
-          campground.comments.push(comment);
-          campground.save();
-          res.redirect(`/campgrounds/` + campground._id);
-        }
-      });
-    }
-  });
-});
-
-//AUTH ROUTES
-//show register
-app.get(`/register`, function(req, res) {
-  res.render(`register`);
-});
-//handle sign up logic
-app.post(`/register`, function(req, res) {
-  let newUser = new User({ username: req.body.username });
-  User.register(newUser, req.body.password, function(err, user) {
-    if (err) {
-      console.log(err);
-      res.render(`register`);
-    } else {
-      passport.authenticate(`local`)(req, res, function() {
-        res.redirect(`/campgrounds`);
-      });
-    }
-  });
-});
-//show and post login form
-app.get(`/login`, function(req, res) {
-  res.render(`login`);
-});
-
-function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    res.redirect(`/login`);
-  }
-}
-
-app.post(
-  `/login`,
-  passport.authenticate(`local`, {
-    successRedirect: `/campgrounds`,
-    failureRedirect: `/login`
-  })
-);
-//logout route
-app.get(`/logout`, function(req, res) {
-  req.logout();
-  res.redirect(`/campgrounds`);
 });
