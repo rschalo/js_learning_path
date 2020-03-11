@@ -44,6 +44,17 @@ app.get("/", function(req, res) {
   res.render("landing");
 });
 
+app.get(`/campgrounds`, function(req, res) {
+  Campground.find({})
+    .then(function(allCampgrounds) {
+      res.render(`campgrounds/index`, { campgrounds: allCampgrounds });
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
+});
+
+/* original show route for all campgrounds
 app.get("/campgrounds", function(req, res) {
   Campground.find({}, function(err, allCampgrounds) {
     if (err) {
@@ -55,6 +66,7 @@ app.get("/campgrounds", function(req, res) {
 
   //res.render("campgrounds", {campgrounds:campgrounds});
 });
+*/
 
 app.get("/campgrounds/new", function(req, res) {
   res.render("campgrounds/new");
@@ -104,6 +116,7 @@ app.get(`/campgrounds/:id/comments/new`, isLoggedIn, function(req, res) {
   });
 });
 
+//comments post route
 app.post(`/campgrounds/:id/comments`, isLoggedIn, function(req, res) {
   Campground.findById(req.params.id, function(err, campground) {
     if (err) {
