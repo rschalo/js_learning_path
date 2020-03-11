@@ -9,24 +9,16 @@
         action="/campgrounds/<%=campground._id%>/comments"
         method="POST"
       >
-        <div class="form-group">
-          <input
-            type="text"
-            name="comment[author]"
-            placeholder="author"
-            required
-          />
-        </div>
         <textarea
-        rows="4"
-        cols="50"
-        name="comment[text]"
-        placeholder="Enter comment here"
-        required
-      ></textarea>
+          rows="4"
+          cols="50"
+          name="comment[text]"
+          placeholder="Enter comment here"
+          required
+        ></textarea>
         <button class="btn btn-sm btn-success">Submit!</button>
       </form>
-      
+
       <div class="container-fluid">
         <a class="btn btn-sm btn-info" href="/">Return to Home</a>
         <a class="btn btn-sm btn-info" href="/comments">Go Back to Comments</a>
