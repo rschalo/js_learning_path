@@ -1,7 +1,7 @@
 var express = require(`express`);
 var router = express.Router();
 var Campground = require(`../models/campground`);
-var middleware = require('../middleware');
+var middleware = require("../middleware");
 
 //campground get and new
 router
@@ -67,13 +67,17 @@ router.get("/:id", function(req, res) {
 
 router.get(`/:id/edit`, middleware.confirmCampgroundOwner, function(req, res) {
   Campground.findById(req.params.id, function(err, foundCampground) {
-    res.render(`campgrounds/edit`, { campground: foundCampground });
+    if (err) {
+      req.flash(`error`, `Campground not found`);
+    } else {
+      res.render(`campgrounds/edit`, { campground: foundCampground });
+    }
   });
 });
 
 // UPDATE CAMPGROUND ROUTE
 
-router.put(`/:id`, (req, res) => {
+router.put(`/:id`, middleware.confirmCampgroundOwner, (req, res) => {
   Campground.findByIdAndUpdate(
     req.params.id,
     req.body.campground,

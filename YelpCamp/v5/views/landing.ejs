@@ -1,13 +1,23 @@
 <%- include("./partials/header") %>
 
+<div class="container">
+  <% if(error && error.length > 0){ %>
+  <div class="alert alert-danger" role="alert">
+    <%= error %>
+  </div>
+  <% } %> <% if(success && success > 0){ %>
+  <div class="alert alert-success" role="alert">
+    <%= success %>
+  </div>
+  <% } %>
+</div>
+
 <div class="container-fluid">
-    <h1>Landing Page!</h1>
-
-    <a class="btn btn-info" href="/campgrounds/new">Add New Campground</a>
-
-    <p>Welcome to YelpCamp</p>
-
-    <a class ="btn btn-info" href="/campgrounds">View All Campgrounds</a>
+  <div id="landing-header">
+    <h1>Welcome to YelpCamp</h1>
+  </div>
+  <a class="btn btn-info" href="/campgrounds/new">Add New Campground</a>
+  <a class="btn btn-info" href="/campgrounds">View All Campgrounds</a>
 </div>
 
 <%- include("./partials/footer") %>
