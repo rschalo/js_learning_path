@@ -8,7 +8,7 @@
         class="form-control"
         type="text"
         name="campground[name]"
-        placeholder="<%= campground.name %>"
+        value="<%= campground.name %>"
         required
       />
     </div>
@@ -17,7 +17,7 @@
         class="form-control"
         type="text"
         name="campground[image]"
-        placeholder="<%= campground.image %>"
+        value="<%= campground.image %>"
         required
       />
     </div>
@@ -26,7 +26,16 @@
         class="form-control"
         type="text"
         name="campground[description]"
-        placeholder="<%= campground.description %>"
+        value="<%= campground.description %>"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <input
+        class="form-control"
+        type="number"
+        name="campground[price]"
+        value="<%= campground.price %>"
         required
       />
     </div>

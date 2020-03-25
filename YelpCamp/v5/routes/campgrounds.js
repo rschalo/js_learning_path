@@ -18,6 +18,7 @@ router
   .post(middleware.isLoggedIn, (req, res, next) => {
     var name = req.body.name;
     var image = req.body.image;
+    var price = req.body.price;
     var description = req.body.description;
     var author = {
       id: req.user._id,
@@ -27,7 +28,8 @@ router
       name: name,
       image: image,
       description: description,
-      author: author
+      author: author,
+      price: price
     };
     console.log(req.user);
 
